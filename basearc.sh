@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ## Variables to use with $variable
-inst="sudo pacman -S"
+inst="sudo pacman -S -y"
 updg="sudo pacman -Syu"
 ac="sudo pacman -Scc"
 ar="sudo pacman -Qdtq"
