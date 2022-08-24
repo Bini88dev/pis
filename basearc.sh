@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 ## Variables to use with $variable
-inst="yes | sudo pacman -S"
-updg="yes | sudo pacman -Syu"
-ac="yes | sudo pacman -Scc"
-ar="yes | sudo pacman -Qdtq"
-ap="yes | sudo pacman -Qmq"
+inst="sudo pacman -S --noconfirm"
+updg="sudo pacman -Syu --noconfirm"
+ac="sudo pacman -Scc --noconfirm"
+ar="sudo pacman -Qdtq --noconfirm"
+ap="sudo pacman -Qmq --noconfirm"
 us=$USER
 green="32"
 bgreen="\e[1;${green}m"
