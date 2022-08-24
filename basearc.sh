@@ -52,17 +52,17 @@ echo -e "${bgreen}Checking linux standard apps...${endcolor}"
  $inst zip;
  $inst unrar;
  $inst p7zip;
- $inst p7zip-rar;
- $inst dconf-cli;
+ $inst dconf;
  $inst bash-completion;
  $inst nano;
  $inst tmux;
  $inst zsh;
+ $inst linux-headers;
  sleep 1
 
 echo -e "${bgreen}Install python3${endcolor}"
  $inst python3;
- $inst python3-psutil;
+ $inst python-psutil;
  sleep 1
 
 echo -e "${bgreen}Install git${endcolor}"
