@@ -1,2 +1,3 @@
 # Post-Install Script for the distros...
-It will auto install few apps als preparation for ansiblepull...with time it will be fully configured and automated.
+It will auto install few apps als preparation for ansiblepull...with time, it will be fully configured and automated.
+
