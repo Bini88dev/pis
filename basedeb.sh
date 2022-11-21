@@ -36,7 +36,7 @@ echo -e '
 #                      Welcome to Bennys scripting...                  #
 #            Initiating the sequences and preparing disto...           #
 ########################################################################'
- sleep 2
+ sleep 1
  
 echo -e "${bgreen}Update and upgrade distro...${endcolor}"
  $upd;
