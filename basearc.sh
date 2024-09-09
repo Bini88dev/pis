@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-## Variables to use with $variable
+## Variables to use with $variables
 inst="sudo pacman -S --noconfirm"
 updg="sudo pacman -Syu --noconfirm"
 ac="sudo pacman -Scc --noconfirm"
