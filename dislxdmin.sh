@@ -28,6 +28,8 @@ echo -e '
 ########################################################################'
  sleep 1
 
+#!/bin/bash
+
 # Function to detect the Linux distribution
 detect_distro() {
     if [ -f /etc/os-release ]; then
@@ -39,10 +41,46 @@ detect_distro() {
     fi
 }
 
+# Retry function to handle package installations
+install_with_retry() {
+    local install_cmd="$1"
+    local package="$2"
+    local max_retries=3
+    local retries=0
+    local success=0
+
+    while [ $retries -lt $max_retries ]; do
+        echo "Attempting to install $package (Try: $((retries + 1)))..."
+        eval "$install_cmd $package"
+        if [ $? -eq 0 ]; then
+            echo "$package installed successfully."
+            success=1
+            break
+        else
+            echo "Failed to install $package."
+            retries=$((retries + 1))
+        fi
+    done
+
+    if [ $success -ne 1 ]; then
+        echo "Failed to install $package after $max_retries attempts. Skipping."
+        echo "$package" >> failed_packages.log
+    fi
+}
+
 # Function to update and upgrade packages for Debian/Ubuntu
 update_debian_ubuntu() {
     echo "Detected Debian/Ubuntu. Updating and upgrading packages..."
     apt update && apt upgrade -y
+}
+
+# Function to install packages for Debian/Ubuntu
+install_debian_ubuntu() {
+    echo "Installing packages on Debian/Ubuntu..."
+    packages=(curl wget software-properties-common net-tools nmap htop fontconfig zip unzip bash-completion dconf-cli nano tmux python3 python3-psutil)
+    for package in "${packages[@]}"; do
+        install_with_retry "apt install -y" "$package"
+    done
 }
 
 # Function to update and upgrade packages for Arch
@@ -51,10 +89,28 @@ update_arch() {
     pacman -Syu --noconfirm
 }
 
-# Function to update and upgrade packages for Fedora
-update_fedora() {
-    echo "Detected Fedora. Updating and upgrading packages..."
+# Function to install packages for Arch
+install_arch() {
+    echo "Installing packages on Arch Linux..."
+    packages=(curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python-psutil)
+    for package in "${packages[@]}"; do
+        install_with_retry "pacman -S --noconfirm" "$package"
+    done
+}
+
+# Function to update and upgrade packages for Fedora/AlmaLinux/RockyLinux
+update_fedora_alma_rocky() {
+    echo "Detected Fedora/AlmaLinux/Rocky Linux. Updating and upgrading packages..."
     dnf upgrade --refresh -y
+}
+
+# Function to install packages for Fedora/AlmaLinux/RockyLinux
+install_fedora_alma_rocky() {
+    echo "Installing packages on Fedora/AlmaLinux/Rocky Linux..."
+    packages=(curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python3-psutil)
+    for package in "${packages[@]}"; do
+        install_with_retry "dnf install -y" "$package"
+    done
 }
 
 # Function to update and upgrade packages for Alpine
@@ -63,40 +119,13 @@ update_alpine() {
     apk update && apk upgrade
 }
 
-# Function to update and upgrade packages for AlmaLinux/RockyLinux (uses the same package manager as CentOS/Fedora)
-update_alma_rocky() {
-    echo "Detected AlmaLinux/Rocky Linux. Updating and upgrading packages..."
-    dnf upgrade --refresh -y
-}
-
-# Function to install packages for Debian/Ubuntu
-install_debian_ubuntu() {
-    echo "Installing packages on Debian/Ubuntu..."
-    apt install -y curl wget software-properties-common net-tools nmap htop fontconfig zip unzip bash-completion dconf-cli nano tmux python3 python3-psutil
-}
-
-# Function to install packages for Arch
-install_arch() {
-    echo "Installing packages on Arch Linux..."
-    pacman -S --noconfirm curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python-psutil
-}
-
-# Function to install packages for Fedora
-install_fedora() {
-    echo "Installing packages on Fedora..."
-    dnf install -y curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python3-psutil
-}
-
 # Function to install packages for Alpine
 install_alpine() {
     echo "Installing packages on Alpine Linux..."
-    apk add curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 py3-psutil
-}
-
-# Function to install packages for AlmaLinux/Rocky Linux
-install_alma_rocky() {
-    echo "Installing packages on AlmaLinux/Rocky Linux..."
-    dnf install -y curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python3-psutil
+    packages=(curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 py3-psutil)
+    for package in "${packages[@]}"; do
+        install_with_retry "apk add" "$package"
+    done
 }
 
 # Function to prompt for restart
@@ -123,17 +152,13 @@ case $distro in
         update_arch
         install_arch
         ;;
-    fedora)
-        update_fedora
-        install_fedora
+    fedora|almalinux|rocky)
+        update_fedora_alma_rocky
+        install_fedora_alma_rocky
         ;;
     alpine)
         update_alpine
         install_alpine
-        ;;
-    almalinux|rocky)
-        update_alma_rocky
-        install_alma_rocky
         ;;
     *)
         echo "Unsupported distribution: $distro. Exiting."
