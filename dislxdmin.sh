@@ -24,11 +24,16 @@ echo -e '
 ########################################################################
 ########################################################################
 #                      Welcome to Bennys scripting...                  #
-#            Initiating the sequences and preparing disto...           #
+#            Initiating the sequences and preparing LXD disto...       #
 ########################################################################'
- sleep 1
 
-#!/bin/bash
+# Function to check if the script is run as root
+check_root() {
+    if [ "$(id -u)" != "0" ]; then
+        echo "This script must be run as root. Use sudo to run it."
+        exit 1
+    fi
+}
 
 # Function to detect the Linux distribution
 detect_distro() {
@@ -77,7 +82,7 @@ update_debian_ubuntu() {
 # Function to install packages for Debian/Ubuntu
 install_debian_ubuntu() {
     echo "Installing packages on Debian/Ubuntu..."
-    packages=(curl wget software-properties-common net-tools nmap htop fontconfig zip unzip bash-completion dconf-cli nano tmux python3 python3-psutil)
+    packages=(cron curl wget software-properties-common net-tools nmap htop fontconfig zip unzip bash-completion dconf-cli nano tmux python3 python3-psutil)
     for package in "${packages[@]}"; do
         install_with_retry "apt install -y" "$package"
     done
@@ -92,7 +97,7 @@ update_arch() {
 # Function to install packages for Arch
 install_arch() {
     echo "Installing packages on Arch Linux..."
-    packages=(curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python-psutil)
+    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python-psutil)
     for package in "${packages[@]}"; do
         install_with_retry "pacman -S --noconfirm" "$package"
     done
@@ -107,7 +112,7 @@ update_fedora_alma_rocky() {
 # Function to install packages for Fedora/AlmaLinux/RockyLinux
 install_fedora_alma_rocky() {
     echo "Installing packages on Fedora/AlmaLinux/Rocky Linux..."
-    packages=(curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python3-psutil)
+    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python3-psutil)
     for package in "${packages[@]}"; do
         install_with_retry "dnf install -y" "$package"
     done
@@ -122,10 +127,36 @@ update_alpine() {
 # Function to install packages for Alpine
 install_alpine() {
     echo "Installing packages on Alpine Linux..."
-    packages=(curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 py3-psutil)
+    packages=(dcron curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 py3-psutil)
     for package in "${packages[@]}"; do
         install_with_retry "apk add" "$package"
     done
+}
+
+# Function to prompt for ansible installation
+prompt_ansible_install() {
+    read -p "Do you want to install Ansible? (y/n): " response
+    if [[ "$response" =~ ^[Yy]$ ]]; then
+        case $distro in
+            debian|ubuntu)
+                install_with_retry "apt install -y" "ansible"
+                ;;
+            arch)
+                install_with_retry "pacman -S --noconfirm" "ansible"
+                ;;
+            fedora|almalinux|rocky)
+                install_with_retry "dnf install -y" "ansible"
+                ;;
+            alpine)
+                install_with_retry "apk add" "ansible"
+                ;;
+            *)
+                echo "Ansible installation not supported on this distribution."
+                ;;
+        esac
+    else
+        echo "Skipping Ansible installation."
+    fi
 }
 
 # Function to prompt for restart
@@ -165,6 +196,9 @@ case $distro in
         exit 1
         ;;
 esac
+
+# Prompt for ansible installation
+prompt_ansible_install
 
 # Prompt for system restart
 prompt_restart
