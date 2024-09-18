@@ -75,7 +75,7 @@ update_debian_ubuntu() {
 # Function to install packages for Debian/Ubuntu
 install_debian_ubuntu() {
     echo "Installing packages on Debian/Ubuntu..."
-    packages=(cron curl wget software-properties-common net-tools nmap htop fontconfig zip unzip bash-completion dconf-cli nano tmux python3 python3-psutil yadm git)
+    packages=(cron curl wget software-properties-common net-tools nmap htop fontconfig zip unzip bash-completion dconf-cli nano tmux python3 python3-psutil yadm git xsel)
     for package in "${packages[@]}"; do
         install_with_retry "apt install -y" "$package"
     done
@@ -90,7 +90,7 @@ update_arch() {
 # Function to install packages for Arch
 install_arch() {
     echo "Installing packages on Arch Linux..."
-    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python-psutil yadm git)
+    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python-psutil yadm git xsel)
     for package in "${packages[@]}"; do
         install_with_retry "pacman -S --noconfirm" "$package"
     done
@@ -105,7 +105,7 @@ update_fedora_alma_rocky() {
 # Function to install packages for Fedora/AlmaLinux/RockyLinux
 install_fedora_alma_rocky() {
     echo "Installing packages on Fedora/AlmaLinux/Rocky Linux..."
-    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python3-psutil yadm git)
+    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python3-psutil yadm git xsel)
     for package in "${packages[@]}"; do
         install_with_retry "dnf install -y" "$package"
     done
@@ -120,7 +120,7 @@ update_alpine() {
 # Function to install packages for Alpine
 install_alpine() {
     echo "Installing packages on Alpine Linux..."
-    packages=(dcron curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 py3-psutil yadm git)
+    packages=(dcron curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 py3-psutil yadm git xsel)
     for package in "${packages[@]}"; do
         install_with_retry "apk add" "$package"
     done
