@@ -8,14 +8,6 @@ check_root() {
     fi
 }
 
-echo -e '
-  ____  _       _  ___   ___      _            
- | __ )(_)_ __ (_)( _ ) ( _ )  __| | _____   __
- |  _ \| | '_ \| |/ _ \ / _ \ / _` |/ _ \ \ / /
- | |_) | | | | | | (_) | (_) | (_| |  __/\ V / 
- |____/|_|_| |_|_|\___/ \___/ \__,_|\___| \_/  
-'
-
 # Function to detect the Linux distribution
 detect_distro() {
     if [ -f /etc/os-release ]; then
