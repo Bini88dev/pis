@@ -9,23 +9,11 @@ check_root() {
 }
 
 echo -e '
-########################################################################
-# /$$$$$$$                                           /$$$$$$   /$$$$$$\#
-#| $$__  $$                                         /$$__  $$ /$$__  $$#
-#| $$  \ $$  /$$$$$$  /$$$$$$$  /$$$$$$$  /$$   /$$| $$  \ $$| $$  \ $$#
-#| $$$$$$$  /$$__  $$| $$__  $$| $$__  $$| $$  | $$|  $$$$$$/|  $$$$$$/#
-#| $$__  $$| $$$$$$$$| $$  \ $$| $$  \ $$| $$  | $$  $$__  $$  $$__  $$#
-#| $$  \ $$| $$_____/| $$  | $$| $$  | $$| $$  | $$| $$  \ $$| $$  \ $$#
-#| $$$$$$$/|  $$$$$$$| $$  | $$| $$  | $$|  $$$$$$$|  $$$$$$/|  $$$$$$/#
-#|_______/  \_______/|__/  |__/|__/  |__/ \____  $$ \______/  \______/ #
-#                                         /$$  | $$/                   #
-#                                        |  $$$$$$/                    #
-#                                         \______/                     #
-########################################################################
-########################################################################
-#                      Welcome to Bennys scripting...                  #
-#            Initiating the sequences and preparing LXD disto...       #
-########################################################################
+  ____  _       _  ___   ___      _            
+ | __ )(_)_ __ (_)( _ ) ( _ )  __| | _____   __
+ |  _ \| | '_ \| |/ _ \ / _ \ / _` |/ _ \ \ / /
+ | |_) | | | | | | (_) | (_) | (_| |  __/\ V / 
+ |____/|_|_| |_|_|\___/ \___/ \__,_|\___| \_/  
 '
 
 # Function to detect the Linux distribution
@@ -75,7 +63,7 @@ update_debian_ubuntu() {
 # Function to install packages for Debian/Ubuntu
 install_debian_ubuntu() {
     echo "Installing packages on Debian/Ubuntu..."
-    packages=(cron curl wget software-properties-common net-tools nmap htop fontconfig zip unzip bash-completion dconf-cli nano tmux python3 python3-psutil yadm git xsel)
+    packages=(cron curl wget software-properties-common net-tools nmap htop fontconfig zip unzip bash-completion dconf-cli nano neovim ranger tmux python3 python3-psutil yadm git xsel)
     for package in "${packages[@]}"; do
         install_with_retry "apt install -y" "$package"
     done
@@ -90,7 +78,7 @@ update_arch() {
 # Function to install packages for Arch
 install_arch() {
     echo "Installing packages on Arch Linux..."
-    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python-psutil yadm git xsel)
+    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano neovim ranger tmux python3 python-psutil yadm git xsel)
     for package in "${packages[@]}"; do
         install_with_retry "pacman -S --noconfirm" "$package"
     done
@@ -105,7 +93,7 @@ update_fedora_alma_rocky() {
 # Function to install packages for Fedora/AlmaLinux/RockyLinux
 install_fedora_alma_rocky() {
     echo "Installing packages on Fedora/AlmaLinux/Rocky Linux..."
-    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 python3-psutil yadm git xsel)
+    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano neovim ranger tmux python3 python3-psutil yadm git xsel)
     for package in "${packages[@]}"; do
         install_with_retry "dnf install -y" "$package"
     done
@@ -120,7 +108,7 @@ update_alpine() {
 # Function to install packages for Alpine
 install_alpine() {
     echo "Installing packages on Alpine Linux..."
-    packages=(dcron curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano tmux python3 py3-psutil yadm git xsel)
+    packages=(dcron curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano neovim ranger tmux python3 py3-psutil yadm git xsel)
     for package in "${packages[@]}"; do
         install_with_retry "apk add" "$package"
     done
@@ -149,6 +137,32 @@ prompt_ansible_install() {
         esac
     else
         echo "Skipping Ansible installation."
+    fi
+}
+
+# Function to prompt for terraform installation
+prompt_terraform_install() {
+    read -p "Do you want to install Terraform? (y/n): " response
+    if [[ "$response" =~ ^[Yy]$ ]]; then
+        case $distro in
+            debian|ubuntu)
+                apt-get update && install_with_retry "apt install -y" "terraform"
+                ;;
+            arch)
+                install_with_retry "pacman -S --noconfirm" "terraform"
+                ;;
+            fedora|almalinux|rocky)
+                install_with_retry "dnf install -y" "terraform"
+                ;;
+            alpine)
+                echo "Terraform is not available in the default Alpine Linux repositories."
+                ;;
+            *)
+                echo "Terraform installation not supported on this distribution."
+                ;;
+        esac
+    else
+        echo "Skipping Terraform installation."
     fi
 }
 
@@ -192,6 +206,9 @@ esac
 
 # Prompt for ansible installation
 prompt_ansible_install
+
+# Prompt for terraform installation
+prompt_terraform_install
 
 # Prompt for system restart
 prompt_restart
