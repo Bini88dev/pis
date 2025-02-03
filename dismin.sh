@@ -61,30 +61,15 @@ install_debian_ubuntu() {
     done
 }
 
-# Function to update and upgrade packages for Arch
-update_arch() {
-    echo "Detected Arch Linux. Updating and upgrading packages..."
-    pacman -Syu --noconfirm
-}
-
-# Function to install packages for Arch
-install_arch() {
-    echo "Installing packages on Arch Linux..."
-    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano neovim ranger tmux python3 python-psutil yadm git xsel)
-    for package in "${packages[@]}"; do
-        install_with_retry "pacman -S --noconfirm" "$package"
-    done
-}
-
-# Function to update and upgrade packages for Fedora/AlmaLinux/RockyLinux
-update_fedora_alma_rocky() {
-    echo "Detected Fedora/AlmaLinux/Rocky Linux. Updating and upgrading packages..."
+# Function to update and upgrade packages for Rocky Linux
+update_rocky() {
+    echo "Detected Rocky Linux. Updating and upgrading packages..."
     dnf upgrade --refresh -y
 }
 
-# Function to install packages for Fedora/AlmaLinux/RockyLinux
-install_fedora_alma_rocky() {
-    echo "Installing packages on Fedora/AlmaLinux/Rocky Linux..."
+# Function to install packages for Rocky Linux
+install_rocky() {
+    echo "Installing packages on Rocky Linux..."
     packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano neovim ranger tmux python3 python3-psutil yadm git xsel)
     for package in "${packages[@]}"; do
         install_with_retry "dnf install -y" "$package"
@@ -114,10 +99,7 @@ prompt_ansible_install() {
             debian|ubuntu)
                 install_with_retry "apt install -y" "ansible"
                 ;;
-            arch)
-                install_with_retry "pacman -S --noconfirm" "ansible"
-                ;;
-            fedora|almalinux|rocky)
+            rocky)
                 install_with_retry "dnf install -y" "ansible"
                 ;;
             alpine)
@@ -140,10 +122,7 @@ prompt_terraform_install() {
             debian|ubuntu)
                 apt-get update && install_with_retry "apt install -y" "terraform"
                 ;;
-            arch)
-                install_with_retry "pacman -S --noconfirm" "terraform"
-                ;;
-            fedora|almalinux|rocky)
+            rocky)
                 install_with_retry "dnf install -y" "terraform"
                 ;;
             alpine)
@@ -178,13 +157,9 @@ case $distro in
         update_debian_ubuntu
         install_debian_ubuntu
         ;;
-    arch)
-        update_arch
-        install_arch
-        ;;
-    fedora|almalinux|rocky)
-        update_fedora_alma_rocky
-        install_fedora_alma_rocky
+    rocky)
+        update_rocky
+        install_rocky
         ;;
     alpine)
         update_alpine
@@ -204,3 +179,4 @@ prompt_terraform_install
 
 # Prompt for system restart
 prompt_restart
+
