@@ -76,7 +76,7 @@ install_debian_ubuntu() {
     echo "Installing packages on Debian/Ubuntu..."
     packages=(
         coreutils
-	cron
+	    cron
         bat
         fzf
         curl
@@ -92,13 +92,13 @@ install_debian_ubuntu() {
         bash-completion
         dconf-cli
         nano
-        neovim
         ranger
         tmux
         python3
+        python3-pip
         python3-psutil
-        yadm
         git
+        yadm
         xsel
     )
     for package in "${packages[@]}"; do
@@ -118,7 +118,7 @@ install_rocky() {
     packages=(
         dnf-utils
         epel-release
-	cronie
+	    cronie
         bat
         fzf
         curl
@@ -133,12 +133,11 @@ install_rocky() {
         bash-completion
         dconf
         nano
-        neovim
         ranger
         tmux
         python3
+        python3-pip
         python3-psutil
-        yadm
         git
         xsel
     )
@@ -158,7 +157,7 @@ install_alpine() {
     echo "Installing packages on Alpine Linux..."
     packages=(
         coreutils
-	dcron
+	    dcron
         bat
         fzf
         curl
@@ -173,13 +172,13 @@ install_alpine() {
         bash-completion
         dconf
         nano
-        neovim
         ranger
         tmux
         python3
+        python3-pip
         py3-psutil
-        yadm
         git
+        yadm
         xsel
     )
     for package in "${packages[@]}"; do
