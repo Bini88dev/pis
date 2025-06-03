@@ -8,6 +8,23 @@ check_root() {
     fi
 }
 
+# Colors for deloa
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+# Show deloa
+echo -e "${GREEN}"
+cat << "EOF"
+██████╗ ███████╗███╗   ██╗███╗   ██╗██╗   ██╗ █████╗  █████╗ 
+██╔══██╗██╔════╝████╗  ██║████╗  ██║╚██╗ ██╔╝██╔══██╗██╔══██╗
+██████╔╝█████╗  ██╔██╗ ██║██╔██╗ ██║ ╚████╔╝ ╚█████╔╝╚█████╔╝
+██╔══██╗██╔══╝  ██║╚██╗██║██║╚██╗██║  ╚██╔╝  ██╔══██╗██╔══██╗
+██████╔╝███████╗██║ ╚████║██║ ╚████║   ██║   ╚█████╔╝╚█████╔╝
+╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═══╝   ╚═╝    ╚════╝  ╚════╝ 
+EOF
+echo -e "${NC}"
+sleep 1s
+
 # Function to detect the Linux distribution
 detect_distro() {
     if [ -f /etc/os-release ]; then
@@ -55,7 +72,33 @@ update_debian_ubuntu() {
 # Function to install packages for Debian/Ubuntu
 install_debian_ubuntu() {
     echo "Installing packages on Debian/Ubuntu..."
-    packages=(cron curl wget software-properties-common net-tools nmap htop fontconfig zip unzip bash-completion dconf-cli nano neovim ranger tmux python3 python3-psutil yadm git xsel)
+    packages=(
+        cron
+        cat
+        bat
+        fzf
+        curl
+        wget
+        software-properties-common
+        net-tools
+        nmap
+        htop
+        btop
+        fontconfig
+        zip
+        unzip
+        bash-completion
+        dconf-cli
+        nano
+        neovim
+        ranger
+        tmux
+        python3
+        python3-psutil
+        yadm
+        git
+        xsel
+    )
     for package in "${packages[@]}"; do
         install_with_retry "apt install -y" "$package"
     done
@@ -70,7 +113,34 @@ update_rocky() {
 # Function to install packages for Rocky Linux
 install_rocky() {
     echo "Installing packages on Rocky Linux..."
-    packages=(cronie curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano neovim ranger tmux python3 python3-psutil yadm git xsel)
+    packages=(
+        dnf-utils
+        epel-release
+        cronie
+        cat
+        bat
+        fzf
+        curl
+        wget
+        net-tools
+        nmap
+        htop
+        btop
+        fontconfig
+        zip
+        unzip
+        bash-completion
+        dconf
+        nano
+        neovim
+        ranger
+        tmux
+        python3
+        python3-psutil
+        yadm
+        git
+        xsel
+    )
     for package in "${packages[@]}"; do
         install_with_retry "dnf install -y" "$package"
     done
@@ -85,7 +155,32 @@ update_alpine() {
 # Function to install packages for Alpine
 install_alpine() {
     echo "Installing packages on Alpine Linux..."
-    packages=(dcron curl wget net-tools nmap htop fontconfig zip unzip bash-completion dconf nano neovim ranger tmux python3 py3-psutil yadm git xsel)
+    packages=(
+        dcron
+        cat
+        bat
+        fzf
+        curl
+        wget
+        net-tools
+        nmap
+        htop
+        btop
+        fontconfig
+        zip
+        unzip
+        bash-completion
+        dconf
+        nano
+        neovim
+        ranger
+        tmux
+        python3
+        py3-psutil
+        yadm
+        git
+        xsel
+    )
     for package in "${packages[@]}"; do
         install_with_retry "apk add" "$package"
     done
@@ -115,27 +210,27 @@ prompt_ansible_install() {
 }
 
 # Function to prompt for terraform installation
-prompt_terraform_install() {
-    read -p "Do you want to install Terraform? (y/n): " response
-    if [[ "$response" =~ ^[Yy]$ ]]; then
-        case $distro in
-            debian|ubuntu)
-                apt-get update && install_with_retry "apt install -y" "terraform"
-                ;;
-            rocky)
-                install_with_retry "dnf install -y" "terraform"
-                ;;
-            alpine)
-                echo "Terraform is not available in the default Alpine Linux repositories."
-                ;;
-            *)
-                echo "Terraform installation not supported on this distribution."
-                ;;
-        esac
-    else
-        echo "Skipping Terraform installation."
-    fi
-}
+#prompt_terraform_install() {
+#    read -p "Do you want to install Terraform? (y/n): " response
+#    if [[ "$response" =~ ^[Yy]$ ]]; then
+#        case $distro in
+#            debian|ubuntu)
+#                apt-get update && install_with_retry "apt install -y" "terraform"
+#                ;;
+#            rocky)
+#                install_with_retry "dnf install -y" "terraform"
+#                ;;
+#            alpine)
+#                echo "Terraform is not available in the default Alpine Linux repositories."
+#                ;;
+#            *)
+#                echo "Terraform installation not supported on this distribution."
+#                ;;
+#        esac
+#    else
+#        echo "Skipping Terraform installation."
+#    fi
+#}
 
 # Function to prompt for restart
 prompt_restart() {
@@ -175,8 +270,7 @@ esac
 prompt_ansible_install
 
 # Prompt for terraform installation
-prompt_terraform_install
+#prompt_terraform_install
 
 # Prompt for system restart
 prompt_restart
-
