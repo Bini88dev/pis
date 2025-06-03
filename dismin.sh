@@ -118,7 +118,6 @@ install_rocky() {
     packages=(
         dnf-utils
         epel-release
-        coreutils
 	cronie
         bat
         fzf
