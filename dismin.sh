@@ -175,7 +175,7 @@ install_alpine() {
         ranger
         tmux
         python3
-        python3-pip
+        py3-pip
         py3-psutil
         git
         yadm
