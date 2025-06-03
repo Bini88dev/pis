@@ -21,6 +21,8 @@ cat << "EOF"
 ██╔══██╗██╔══╝  ██║╚██╗██║██║╚██╗██║  ╚██╔╝  ██╔══██╗██╔══██╗
 ██████╔╝███████╗██║ ╚████║██║ ╚████║   ██║   ╚█████╔╝╚█████╔╝
 ╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═══╝   ╚═╝    ╚════╝  ╚════╝
+                Welcome to Bennys scripting...
+      Initiating the sequences and preparing disto...
 EOF
 echo -e "${NC}"
 sleep 1s
