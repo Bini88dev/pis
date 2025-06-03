@@ -15,12 +15,12 @@ NC='\033[0m'
 # Show deloa
 echo -e "${GREEN}"
 cat << "EOF"
-██████╗ ███████╗███╗   ██╗███╗   ██╗██╗   ██╗ █████╗  █████╗ 
+██████╗ ███████╗███╗   ██╗███╗   ██╗██╗   ██╗ █████╗  █████╗
 ██╔══██╗██╔════╝████╗  ██║████╗  ██║╚██╗ ██╔╝██╔══██╗██╔══██╗
 ██████╔╝█████╗  ██╔██╗ ██║██╔██╗ ██║ ╚████╔╝ ╚█████╔╝╚█████╔╝
 ██╔══██╗██╔══╝  ██║╚██╗██║██║╚██╗██║  ╚██╔╝  ██╔══██╗██╔══██╗
 ██████╔╝███████╗██║ ╚████║██║ ╚████║   ██║   ╚█████╔╝╚█████╔╝
-╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═══╝   ╚═╝    ╚════╝  ╚════╝ 
+╚═════╝ ╚══════╝╚═╝  ╚═══╝╚═╝  ╚═══╝   ╚═╝    ╚════╝  ╚════╝
 EOF
 echo -e "${NC}"
 sleep 1s
@@ -73,8 +73,8 @@ update_debian_ubuntu() {
 install_debian_ubuntu() {
     echo "Installing packages on Debian/Ubuntu..."
     packages=(
-        cron
-        cat
+        coreutils
+	cron
         bat
         fzf
         curl
@@ -116,8 +116,8 @@ install_rocky() {
     packages=(
         dnf-utils
         epel-release
-        cronie
-        cat
+        coreutils
+	cronie
         bat
         fzf
         curl
@@ -156,8 +156,8 @@ update_alpine() {
 install_alpine() {
     echo "Installing packages on Alpine Linux..."
     packages=(
-        dcron
-        cat
+        coreutils
+	dcron
         bat
         fzf
         curl
