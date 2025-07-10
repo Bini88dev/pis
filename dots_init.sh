@@ -351,7 +351,7 @@ clone_dotfiles() {
     # Clone dotfiles as the actual user
     if [[ "$actual_user" == "root" ]]; then
         # Running as root directly
-        if yadm -f clone "$DOTFILES_REPO"; then
+        if yadm clone "$DOTFILES_REPO"; then
             print_colored "$GREEN" "✓ Successfully cloned dotfiles" "SUCCESS"
             print_colored "$BLUE" "yadm will run further pre_clone hooks..." "INFO"
         else
@@ -363,9 +363,9 @@ clone_dotfiles() {
         fi
     else
         # Running with sudo, execute as the actual user
-        if sudo -u "$actual_user" -H bash -c "cd '$user_home' && yadm -f clone '$DOTFILES_REPO'"; then
+        if sudo -u "$actual_user" -H bash -c "cd '$user_home' && yadm clone '$DOTFILES_REPO'"; then
             print_colored "$GREEN" "✓ Successfully cloned dotfiles for user: $actual_user" "SUCCESS"
-            print_colored "$BLUE" "yadm will run further pre_clone hooks..." "INFO"
+            print_colored "$BLUE" "yadm will run further hooks and bootstrap..." "INFO"
         else
             print_colored "$RED" "✗ Failed to clone dotfiles for user: $actual_user" "ERROR"
             print_colored "$YELLOW" "Manual fallback: Run 'yadm -f clone $DOTFILES_REPO' as $actual_user" "WARNING"
