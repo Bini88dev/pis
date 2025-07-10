@@ -75,32 +75,44 @@ update_debian_ubuntu() {
 install_debian_ubuntu() {
     echo "Installing packages on Debian/Ubuntu..."
     packages=(
+        sudo
         coreutils
-	cron
-        bat
-        fzf
-	zoxide
+        cron
         curl
         wget
+        # cat
+        fontconfig
         software-properties-common
         net-tools
+        nfs-common
+        dnsutils
         nmap
-        htop
-        btop
-        fontconfig
         zip
         unzip
         bash-completion
         dconf-cli
         nano
+        vim
         ranger
         tmux
+        xsel
+        htop
+        btop
+        # screenfach
+        git
+        yadm
+        bat
+        ripgrep
+        fzf
+        zoxide
+        # eza
         python3
         python3-pip
         python3-psutil
-        git
-        yadm
-        xsel
+        ssh
+        openssh-server
+        openssh-client
+        powertop
     )
     for package in "${packages[@]}"; do
         install_with_retry "apt install -y" "$package"
@@ -119,29 +131,44 @@ install_rocky() {
     packages=(
         dnf-utils
         epel-release
-	cronie
-        bat
-        fzf
-	zoxide
+        sudo
+        coreutils
+        cronie
         curl
         wget
-        net-tools
-        nmap
-        htop
-        btop
+        # cat
         fontconfig
+        software-properties-common
+        net-tools
+        nfs-common
+        dnsutils
+        nmap
         zip
         unzip
         bash-completion
-        dconf
+        dconf-cli
         nano
+        vim
         ranger
         tmux
+        xsel
+        htop
+        btop
+        # screenfach
+        git
+        yadm
+        bat
+        ripgrep
+        fzf
+        zoxide
+        # eza
         python3
         python3-pip
         python3-psutil
-        git
-        xsel
+        ssh
+        openssh-server
+        openssh-client
+        powertop
     )
     for package in "${packages[@]}"; do
         install_with_retry "dnf install -y" "$package"
@@ -158,31 +185,44 @@ update_alpine() {
 install_alpine() {
     echo "Installing packages on Alpine Linux..."
     packages=(
+        sudo
         coreutils
-	dcron
-        bat
-        fzf
-	zoxide
+        dcron
         curl
         wget
-        net-tools
-        nmap
-        htop
-        btop
+        # cat
         fontconfig
+        software-properties-common
+        net-tools
+        nfs-common
+        dnsutils
+        nmap
         zip
         unzip
         bash-completion
-        dconf
+        dconf-cli
         nano
+        vim
         ranger
         tmux
+        xsel
+        htop
+        btop
+        # screenfach
+        git
+        yadm
+        bat
+        ripgrep
+        fzf
+        zoxide
+        # eza
         python3
         py3-pip
         py3-psutil
-        git
-        yadm
-        xsel
+        ssh
+        openssh-server
+        openssh-client
+        powertop
     )
     for package in "${packages[@]}"; do
         install_with_retry "apk add" "$package"
@@ -211,29 +251,6 @@ prompt_ansible_install() {
         echo "Skipping Ansible installation."
     fi
 }
-
-# Function to prompt for terraform installation
-#prompt_terraform_install() {
-#    read -p "Do you want to install Terraform? (y/n): " response
-#    if [[ "$response" =~ ^[Yy]$ ]]; then
-#        case $distro in
-#            debian|ubuntu)
-#                apt-get update && install_with_retry "apt install -y" "terraform"
-#                ;;
-#            rocky)
-#                install_with_retry "dnf install -y" "terraform"
-#                ;;
-#            alpine)
-#                echo "Terraform is not available in the default Alpine Linux repositories."
-#                ;;
-#            *)
-#                echo "Terraform installation not supported on this distribution."
-#                ;;
-#        esac
-#    else
-#        echo "Skipping Terraform installation."
-#    fi
-#}
 
 # Function to prompt for restart
 prompt_restart() {
@@ -271,9 +288,6 @@ esac
 
 # Prompt for ansible installation
 prompt_ansible_install
-
-# Prompt for terraform installation
-#prompt_terraform_install
 
 # Prompt for system restart
 prompt_restart
