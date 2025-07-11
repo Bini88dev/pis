@@ -106,7 +106,7 @@ install_debian_ubuntu() {
         ripgrep
         fzf
         zoxide
-        # eza
+        eza
         python3
         python3-pip
         python3-psutil
@@ -167,7 +167,7 @@ install_rocky() {
         ripgrep
         fzf
         zoxide
-        # eza
+        eza
         python3
         python3-pip
         python3-psutil
@@ -226,7 +226,7 @@ install_alpine() {
         ripgrep
         fzf
         zoxide
-        # eza
+        eza
         python3
         py3-pip
         py3-psutil
