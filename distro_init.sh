@@ -12,6 +12,7 @@ check_root() {
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m'
+
 # Show deloa
 echo -e "${GREEN}"
 cat << "EOF"
@@ -109,6 +110,11 @@ install_debian_ubuntu() {
         python3
         python3-pip
         python3-psutil
+        build-essential
+        libreadline-dev
+        lua5.4
+        liblua5.4-dev
+        luarocks
         ssh
         openssh-server
         openssh-client
@@ -165,6 +171,11 @@ install_rocky() {
         python3
         python3-pip
         python3-psutil
+        build-essential
+        libreadline-dev
+        lua5.4
+        liblua5.4-dev
+        luarocks
         ssh
         openssh-server
         openssh-client
@@ -219,6 +230,11 @@ install_alpine() {
         python3
         py3-pip
         py3-psutil
+        build-essential
+        libreadline-dev
+        lua5.4
+        liblua5.4-dev
+        luarocks
         ssh
         openssh-server
         openssh-client
